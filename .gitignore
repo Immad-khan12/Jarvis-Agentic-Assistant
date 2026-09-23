@@ -1,0 +1,12 @@
+.env
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.wav
+*.mp3
+*.zip
+owner_voiceprint.npy
+jarvis_memory.db
+code_final.txt
+all_code_combined.txt

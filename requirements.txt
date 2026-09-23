@@ -1,0 +1,11 @@
+openai
+elevenlabs
+pyautogui
+pycaw
+comtypes
+requests
+python-dotenv
+fastapi
+uvicorn
+pydantic
+python-multipart

@@ -1,0 +1,2 @@
+mkdir memory
+New-Item -Path memory\memory_manager.py -ItemType File -Force
