@@ -2,7 +2,7 @@ import time
 import pyautogui
 
 # Yahan apna actual PC password likhein (e.g., "1234" ya "mySecretPass")
-PC_PASSWORD = "cvbnm"
+PC_PASSWORD = "CVBNM"
 
 def unlock_pc_screen() -> str:
     """Wakes up Windows Lock screen and auto-types the owner's password."""
