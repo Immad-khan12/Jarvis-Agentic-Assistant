@@ -20,7 +20,7 @@ from tools.screen_watcher import start_watching, stop_watching, ask_about_screen
 from tools.security_unlock import unlock_pc_screen
 from tools.voice_biometrics import verify_speaker
 from tools.gui_agent import open_windows_setting
-from config. memory.memory_manager import save_memory, get_memories
+from memory.memory_manager import save_memory, get_memories
 
 # ---- New tool functions ----
 from tools.spotify_control import play_on_spotify, pause_spotify, resume_spotify, next_track, previous_track
@@ -187,16 +187,18 @@ TOOLS_SCHEMA = [
         "description": "Fallback tool: run any Windows PowerShell command for OS-level requests that no other specific tool covers (renaming files, checking disk space, listing processes, killing a process, changing settings, etc). Use this only when no other tool fits the request.",
         "parameters": {"type": "object", "properties": {
             "command": {"type": "string", "description": "the exact PowerShell command to run"}},
-            "required": ["command"]}}},    
+            "required": ["command"]}}},
 
-        {"type": "function", "function": {
+    {"type": "function", "function": {
         "name": "start_watching",
         "description": "Start continuously watching the screen in the background until told to stop.",
         "parameters": {"type": "object", "properties": {}}}},
+
     {"type": "function", "function": {
         "name": "stop_watching",
         "description": "Stop watching the screen.",
         "parameters": {"type": "object", "properties": {}}}},
+
     {"type": "function", "function": {
         "name": "ask_about_screen",
         "description": "Answer a question about whatever is currently visible on the user's screen.",
@@ -226,7 +228,7 @@ TOOL_REGISTRY = {
     "next_track": lambda: next_track(),
     "previous_track": lambda: previous_track(),
     "run_system_command": lambda command: run_system_command(command),
-        "start_watching": lambda: start_watching(),
+    "start_watching": lambda: start_watching(),
     "stop_watching": lambda: stop_watching(),
     "ask_about_screen": lambda question: ask_about_screen(question),
 }
