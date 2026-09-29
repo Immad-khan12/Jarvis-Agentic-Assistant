@@ -16,6 +16,7 @@ asked. Everything else runs as normal. You can expand/edit the blocklist
 below as you see fit.
 """
 
+import os
 import subprocess
 
 # Patterns that are ALWAYS blocked, no matter how they're phrased.
@@ -52,6 +53,9 @@ def run_system_command(command: str) -> str:
     """
     if not command or not command.strip():
         return "❌ Koi command nahi di gayi."
+
+    if os.getenv("JARVIS_ALLOW_SYSTEM_COMMANDS") != "1":
+        return "❌ Arbitrary system commands disabled hain. JARVIS_ALLOW_SYSTEM_COMMANDS=1 set karna hoga."
 
     if _is_dangerous(command):
         return "❌ Ye command potentially destructive hai (drive format/delete jaisa kuch), safety ke liye block kar diya gaya hai."

@@ -22,6 +22,7 @@ SETUP REQUIRED:
     pip install pygetwindow psutil pywin32
 """
 
+import os
 import time
 import webbrowser
 import pyautogui
@@ -60,6 +61,8 @@ def _find_any_chrome_window():
 
 
 def send_whatsapp_message(contact_name: str, message: str) -> str:
+    if os.getenv("JARVIS_ALLOW_EXTERNAL_SEND") != "1":
+        return "❌ WhatsApp Web sending disabled hai. JARVIS_ALLOW_EXTERNAL_SEND=1 set karna hoga."
     chrome_window = _find_any_chrome_window()
 
     if chrome_window is None:
@@ -99,3 +102,23 @@ def send_whatsapp_message(contact_name: str, message: str) -> str:
         return f"✅ ({status_note}) '{contact_name}' ko message bhej diya hai."
     except Exception as e:
         return f"❌ WhatsApp Error: {str(e)}"
+
+
+def open_whatsapp_web() -> str:
+    chrome_window = _find_any_chrome_window()
+    if chrome_window is None:
+        webbrowser.open("https://web.whatsapp.com/")
+        return "✅ WhatsApp Web browser mein khol diya hai."
+
+    try:
+        if chrome_window.isMinimized:
+            chrome_window.restore()
+        chrome_window.activate()
+        time.sleep(0.6)
+        pyautogui.hotkey("ctrl", "shift", "a")
+        time.sleep(0.5)
+        pyautogui.write("whatsapp", interval=0.04)
+        pyautogui.press("enter")
+        return "✅ Existing WhatsApp Web tab khol diya hai."
+    except Exception as e:
+        return f"❌ WhatsApp Web open nahi ho saka: {str(e)}"

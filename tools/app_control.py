@@ -63,12 +63,7 @@ def open_chrome_profile(profile_dir: str = "Default", search_query: str = "") ->
             encoded = urllib.parse.quote(search_query)
             url = f"https://www.google.com/search?q={encoded}"
 
-        if url:
-            cmd = f'"{CHROME_PATH}" --profile-directory="{profile_dir}" "{url}"'
-        else:
-            cmd = f'"{CHROME_PATH}" --profile-directory="{profile_dir}"'
-
-        subprocess.Popen(cmd, shell=True)
+        subprocess.Popen([CHROME_PATH, f"--profile-directory={profile_dir}", url] if url else [CHROME_PATH, f"--profile-directory={profile_dir}"])
 
         if search_query:
             return f"✅ Chrome ({profile_dir}) par '{search_query}' search kar diya hai."
@@ -87,12 +82,12 @@ def open_application(app_name: str, search_query: str = "") -> str:
     for key, path in APP_PATHS.items():
         if key in app_clean:
             try:
-                subprocess.Popen(path, shell=True)
+                subprocess.Popen([path])
                 return f"Opening {key.upper()}..."
             except Exception as e:
                 return f"Failed to open {key}: {str(e)}"
 
-    return f"Application '{app_name}' executed."
+    return f"❌ Application '{app_name}' supported list mein nahi hai."
 
 
 def get_system_stats() -> str:

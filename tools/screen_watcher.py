@@ -42,6 +42,8 @@ def _capture_loop():
 
 def start_watching() -> str:
     global _watching, _watch_thread
+    if os.getenv("JARVIS_ALLOW_SCREEN_WATCH") != "1":
+        return "❌ Screen watching disabled hai. JARVIS_ALLOW_SCREEN_WATCH=1 set karna hoga."
     if _watching:
         return "👁️ Main already screen dekh raha hoon."
 

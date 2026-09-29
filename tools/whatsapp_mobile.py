@@ -8,6 +8,7 @@ intentional for safety (avoids blind auto-send mistakes).
 
 import subprocess
 import urllib.parse
+import re
 
 
 def send_whatsapp_via_mobile(phone_number: str, message: str) -> str:
@@ -21,6 +22,8 @@ def send_whatsapp_via_mobile(phone_number: str, message: str) -> str:
         clean_number = "".join(ch for ch in phone_number if ch.isdigit())
         if not clean_number:
             return "❌ Phone number samajh nahi aaya."
+        if not re.fullmatch(r"[1-9]\d{7,14}", clean_number):
+            return "❌ Phone number country code ke sath valid format mein dein."
 
         encoded_message = urllib.parse.quote(message)
         deep_link = f"whatsapp://send?phone={clean_number}&text={encoded_message}"

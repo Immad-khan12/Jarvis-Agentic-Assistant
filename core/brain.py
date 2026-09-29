@@ -17,12 +17,11 @@ def process_command(prompt: str, user_id: str = "owner", user_tier: str = "Pro",
 
     # 1. Security Password Unlock Check
     if any(w in prompt_lower for w in ["unlock", "password", "pc kholo", "laptop kholo"]):
-        if audio_path and os.path.exists(audio_path):
-            if verify_speaker(audio_path):
-                return unlock_pc_screen()
-            else:
-                return "❌ Security Alert: Voice match nahi hui."
-        return unlock_pc_screen()
+        if not audio_path or not os.path.exists(audio_path):
+            return "❌ Security Alert: Voice verification audio unavailable hai."
+        if verify_speaker(audio_path):
+            return unlock_pc_screen()
+        return "❌ Security Alert: Voice match nahi hui."
 
     # 2. IMMEDIATE EXECUTION FOR ALL ACTION COMMANDS (No text hallucinations)
     action_keywords = ["open", "kholo", "chalao", "start", "launch", "search", "khojo", "youtube", "chrome", "task manager", "notepad", "calculator", "whatsapp"]

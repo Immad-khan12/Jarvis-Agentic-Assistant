@@ -5,6 +5,13 @@ import urllib.parse
 import pyautogui
 
 CHROME_PATH = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
+KNOWN_APPS = {
+    "notepad": ["notepad.exe"],
+    "calculator": ["calc.exe"],
+    "calc": ["calc.exe"],
+    "task manager": ["taskmgr.exe"],
+    "taskmanager": ["taskmgr.exe"],
+}
 
 FILLER_WORDS = [
     "open", "kholo", "khol", "karo", "kar", "do", "chalao", "chala",
@@ -47,31 +54,28 @@ def launch_system_app(command_str: str) -> str:
             subprocess.Popen([CHROME_PATH])
             return "✅ Chrome open kar diya hai."
         elif "task manager" in clean or "taskmanager" in clean:
-            subprocess.Popen("taskmgr", shell=True)
+            subprocess.Popen(["taskmgr.exe"])
             return "✅ Task Manager open kar diya hai."
         elif "notepad" in clean:
-            subprocess.Popen("notepad", shell=True)
+            subprocess.Popen(["notepad.exe"])
             return "✅ Notepad open kar diya hai."
         elif "calculator" in clean or "calc" in clean:
-            subprocess.Popen("calc", shell=True)
+            subprocess.Popen(["calc.exe"])
             return "✅ Calculator open kar diya hai."
         elif "whatsapp" in clean:
-            subprocess.Popen("start whatsapp:", shell=True)
+            os.startfile("whatsapp:")
             return "✅ WhatsApp open kar diya hai."
 
         app_target = _strip_filler_words(clean)
-
-        if app_target:
-            subprocess.Popen(f'start "" "{app_target}"', shell=True)
+        app_command = KNOWN_APPS.get(app_target)
+        if app_command:
+            subprocess.Popen(app_command)
             return f"✅ '{app_target}' open kar diya hai."
 
+        return f"❌ Unknown application '{app_target}'."
+
     except Exception as e:
-        try:
-            import webbrowser
-            webbrowser.open("https://www.google.com")
-            return "✅ Browser par open kar diya hai."
-        except Exception as ex:
-            return f"❌ Error: {str(ex)}"
+        return f"❌ App open nahi ho saka: {str(e)}"
 
     return "Command execute nahi ho saki."
 

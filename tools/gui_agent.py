@@ -1,5 +1,4 @@
 import pyautogui
-import time
 import subprocess
 
 pyautogui.PAUSE = 0.3
@@ -36,9 +35,7 @@ def click_on_screen_element(target_name: str) -> str:
         pyautogui.click(x, y)
         return "✅ GitHub icon par click kar diya hai."
 
-    # Default Center Click
-    pyautogui.click(screen_w // 2, screen_h // 2)
-    return f"✅ Screen par '{target_name}' open karne ke liye click kar diya hai."
+    return f"❌ Screen par '{target_name}' ka safe target nahi mila; koi click nahi kiya."
 
 def open_windows_setting(setting_name: str) -> str:
     settings_map = {

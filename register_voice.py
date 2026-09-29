@@ -19,6 +19,7 @@ RECORD_SECONDS = 4
 
 p = pyaudio.PyAudio()
 stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
+sampwidth = p.get_sample_size(FORMAT)
 
 frames = []
 for _ in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
@@ -32,7 +33,7 @@ p.terminate()
 audio_file = "owner_sample.wav"
 wf = wave.open(audio_file, "wb")
 wf.setnchannels(CHANNELS)
-wf.setsampwidth(p.get_sample_size(FORMAT))
+wf.setsampwidth(sampwidth)
 wf.setframerate(RATE)
 wf.writeframes(b"".join(frames))
 wf.close()

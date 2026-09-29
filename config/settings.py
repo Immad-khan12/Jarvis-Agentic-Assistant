@@ -17,8 +17,5 @@ if not TAVILY_API_KEY:
 if not ELEVENLABS_API_KEY:
     print("⚠️  WARNING: ELEVENLABS_API_KEY not found — Jarvis won't be able to speak.")
 
-TIER_PERMISSIONS = {
-    "Basic": ["search_web"],
-    "Advanced": ["search_web", "open_app", "system_control"],
-    "Pro": ["search_web", "open_app", "system_control"]
-}
+
+

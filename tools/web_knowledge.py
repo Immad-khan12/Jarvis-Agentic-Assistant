@@ -5,7 +5,7 @@ import requests
 def search_web(query: str) -> str:
     api_key = os.getenv("TAVILY_API_KEY")
     if not api_key:
-        return "Tavily API Key is missing in environment settings."
+        return "Tavily API Key is missing or not find in the environment settings."
 
     try:
         response = requests.post(

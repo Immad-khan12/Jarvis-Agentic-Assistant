@@ -1,4 +1,9 @@
+from pathlib import Path
+import os
+
 import speech_recognition as sr
+
+CAPTURED_AUDIO_PATH = Path(__file__).resolve().parents[1] / "temp_input.wav"
 
 def listen_and_transcribe(timeout: int = 5, phrase_limit: int = 8) -> str:
     """
@@ -16,11 +21,21 @@ def listen_and_transcribe(timeout: int = 5, phrase_limit: int = 8) -> str:
         try:
             audio = recognizer.listen(source, timeout=timeout, phrase_time_limit=phrase_limit)
             print("⏳ Processing voice input...")
+            CAPTURED_AUDIO_PATH.write_bytes(audio.get_wav_data())
             
-            # Google Speech Recognition (Free tier)
-            text = recognizer.recognize_google(audio)
-            print(f"🗣️ You said: '{text}'")
-            return text
+            # Try common mixed-language locales; the first one can be overridden in .env.
+            preferred_language = os.getenv("JARVIS_STT_LANGUAGE", "en-IN")
+            languages = [preferred_language, "ur-PK", "hi-IN", "en-US"]
+            for language in dict.fromkeys(languages):
+                try:
+                    text = recognizer.recognize_google(audio, language=language)
+                    print(f"🗣️ You said ({language}): '{text}'")
+                    return text
+                except sr.UnknownValueError:
+                    continue
+
+            print("⚠️ Voice kisi supported language mein clear nahi thi, dobara bolein.")
+            return ""
             
         except sr.WaitTimeoutError:
             print("⚠️ Timeout: Koi voice detect nahi hui.")

@@ -1,11 +1,14 @@
+import os
 import time
 import pyautogui
 
-# Yahan apna actual PC password likhein (e.g., "1234" ya "mySecretPass")
-PC_PASSWORD = "CVBNM"
+PC_PASSWORD = os.getenv("JARVIS_PC_PASSWORD")
 
 def unlock_pc_screen() -> str:
     """Wakes up Windows Lock screen and auto-types the owner's password."""
+    if not PC_PASSWORD:
+        return "❌ Unlock disabled: JARVIS_PC_PASSWORD environment variable missing hai."
+
     try:
         # Press spacebar to reveal password input field
         pyautogui.press("space")

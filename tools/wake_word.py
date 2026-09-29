@@ -49,8 +49,7 @@ def start_listening(on_wake_callback):
                 if score > 0.1:
                     print(f"👂 Sound picked up! Confidence: {score:.2f}")
                 
-                # Lowered threshold from 0.5 to 0.3 for higher sensitivity
-                if score > 0.1:
+                if score > 0.5:
                     print("\n⚡ [WAKE WORD DETECTED]: 'Hey Jarvis'")
                     on_wake_callback()
                     owwModel.reset()

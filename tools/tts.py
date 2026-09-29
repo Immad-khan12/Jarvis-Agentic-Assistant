@@ -13,6 +13,14 @@ VOICE_MAP = {
     "ur": "ur-PK-UzmaNeural",        # Urdu Female Voice
     "en": "en-US-JennyNeural",       # English Female Voice
     "hi": "hi-IN-SwaraNeural",       # Hindi Female Voice
+    "ar": "ar-SA-ZariyahNeural",     # Arabic Female Voice
+    "es": "es-ES-ElviraNeural",      # Spanish Female Voice
+    "fr": "fr-FR-DeniseNeural",      # French Female Voice
+    "de": "de-DE-KatjaNeural",       # German Female Voice
+    "it": "it-IT-ElsaNeural",        # Italian Female Voice
+    "pt": "pt-BR-FranciscaNeural",   # Portuguese Female Voice
+    "ru": "ru-RU-SvetlanaNeural",    # Russian Female Voice
+    "zh-cn": "zh-CN-XiaoxiaoNeural", # Mandarin Female Voice
 }
 DEFAULT_VOICE = "en-US-JennyNeural"
 
@@ -25,10 +33,12 @@ def clean_text_for_speech(text: str) -> str:
 def get_voice_for_text(text: str) -> str:
     if re.search(r'[\u0600-\u06FF]', text):
         return VOICE_MAP.get("ur", DEFAULT_VOICE)
+    if re.search(r'[\u0900-\u097F]', text):
+        return VOICE_MAP.get("hi", DEFAULT_VOICE)
 
-    roman_words = ["aaj", "hai", "haan", "nahi", "kya", "kaise", "mera", "aap", "ho", "karo", "yeh", "woh", "boss", "g"]
+    roman_words = ["aaj", "hai", "haan", "nahi", "kya", "kaise", "mera", "aap", "karo", "yeh", "woh", "boss"]
     text_words = re.findall(r'\b\w+\b', text.lower())
-    if sum(1 for word in text_words if word in roman_words) >= 1:
+    if sum(1 for word in text_words if word in roman_words) >= 2:
         return VOICE_MAP.get("ur", DEFAULT_VOICE)
 
     try:
